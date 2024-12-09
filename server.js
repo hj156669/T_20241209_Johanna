@@ -44,14 +44,19 @@ app.use(bodyParser.urlencoded({extended: true}))
 
 
 
-
-app.get('/', (req, res) => {
+// Da muss das Wort "index" noch oben reibgeschrieben werden
+app.get('/index', (req, res) => {
 	res.render('index.ejs',{});
 });
 
 
 app.get('/agb', (req, res) => {
 	res.render('agb.ejs',{});
+});
+
+// "Profil" musste noch bei der server.js angelegt werden
+app.get('/profil', (req, res) => {
+	res.render('profil.ejs',{});
 });
 
 app.get('/hilfe', (req, res) => {
@@ -136,3 +141,23 @@ app.listen(PORT, HOST);
 // Ausdruck übergeben. Ein Verb mit anschließenden runden Klammern steht
 // immer für eine Anweisung etwas zu tun. 
 console.log(`Running on http://${HOST}:${PORT}`);
+
+app.post('/kreditBeantragen', (req, res) => {
+
+
+	let betrag = req.body.Betrag;
+	console.log("kreditBeantragen: Gewünschter Betrag: " + betrag + " Euro")
+
+	let laufzeit = req.body.Laufzeit;
+	console.log("kreditBeantragen: Gewünschte Laufzeit: " + laufzeit + " Jahre")
+
+	let zinssatz = 0.1
+
+	let zinsen = betrag * zinssatz;
+
+	res.render('kreditBeantragen.ejs',{
+		Betrag: betrag,
+		Laufzeit: laufzeit,
+		Meldung: "Ihr Kredit beträgt: " + zinsen
+	});
+});
